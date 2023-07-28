@@ -37,7 +37,31 @@ class Tree {
       return ParentNode;
     }
   }
+  insert(value, node = this.root) {
+    // value will be comared with node
+    // if value > then send to right
+    if (value > node.value) {
+      if (node.rightNode) {
+        this.insert(value, node.rightNode);
+        return;
+      } else {
+        node.rightNode = new Node(value);
+      }
+    }
+    // if value < then send to left
+    else if (value < node.value) {
+      if (node.leftNode) {
+        this.insert(value, node.leftNode);
+        return;
+      } else {
+        node.leftNode = new Node(value);
+      }
+    } else if (value === node.value) return;
+  }
 }
 
 const tree = new Tree([1, 4, 5, 5, 4, 2, 3, 9, 8, 7, 6, 5]);
+tree.insert(0);
+tree.insert(1);
+tree.insert(100);
 console.log(tree.root);
