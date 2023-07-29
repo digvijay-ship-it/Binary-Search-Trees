@@ -38,8 +38,6 @@ class Tree {
     }
   }
   insert(value, node = this.root) {
-    // value will be comared with node
-    // if value > then send to right
     if (value > node.value) {
       if (node.rightNode) {
         this.insert(value, node.rightNode);
@@ -47,9 +45,7 @@ class Tree {
       } else {
         node.rightNode = new Node(value);
       }
-    }
-    // if value < then send to left
-    else if (value < node.value) {
+    } else if (value < node.value) {
       if (node.leftNode) {
         this.insert(value, node.leftNode);
         return;
@@ -58,10 +54,53 @@ class Tree {
       }
     } else if (value === node.value) return;
   }
+  delete(value, node = this.root, parent = null) {
+    if (value > node.value) {
+      if (node.rightNode) {
+        this.delete(value, node.rightNode, node);
+        return;
+      }
+    } else if (value < node.value) {
+      if (node.leftNode) {
+        this.delete(value, node.leftNode, node);
+        return;
+      }
+    } else if (value === node.value) {
+      // case 1 if node is leafNode
+      if (node.leftNode === null && node.rightNode === null) {
+        console.log(parent);
+        if (parent.rightNode) {
+          if (parent.rightNode.value === value) {
+            parent.rightNode = null;
+          } else {
+            parent.leftNode = null;
+          }
+        }
+      }
+      // case 2 if node has 1 children
+      else if (node.leftNode === null || node.rightNode === null) {
+        if (!(node.leftNode === null)) {
+          parent.leftNode = node.leftNode;
+          return;
+        } else if (!(node.rightNode === null)) {
+          parent.rightNode = node.rightNode;
+          return;
+        }
+      }
+      // case 3 if node has 2 children
+      else if (node.leftNode && node.rightNode) {
+        // insert leftmost leafNode of right branch of node
+        let ref = node.rightNode;
+        while (ref.leftNode.leftNode) {
+          ref = ref.leftNode;
+        }
+        node.value = ref.leftNode.value;
+        ref.leftNode = null;
+        return;
+      }
+    }
+  }
 }
 
-const tree = new Tree([1, 4, 5, 5, 4, 2, 3, 9, 8, 7, 6, 5]);
-tree.insert(0);
-tree.insert(1);
-tree.insert(100);
-console.log(tree.root);
+const tree = new Tree([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
+tree.delete(12);
