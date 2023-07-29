@@ -129,10 +129,21 @@ class Tree {
       }
     }
   }
+  inOrder(callBackFunc, nodeQueue = [], node = this.root) {
+    // traverse tree in breath first search
+    if (node.leftNode) {
+      this.inOrder(callBackFunc, nodeQueue, node.leftNode);
+    }
+    nodeQueue.push(node);
+    if (node.rightNode) {
+      this.inOrder(callBackFunc, nodeQueue, node.rightNode);
+    }
+    callBackFunc(nodeQueue.shift());
+    return;
+  }
 }
 
 const tree = new Tree([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
-tree.PreOrder(function (node) {
+tree.inOrder(function (node) {
   console.log(node.value);
 });
-console.log(tree.find(6));
