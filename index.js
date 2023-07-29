@@ -100,7 +100,19 @@ class Tree {
       }
     }
   }
+  find(value) {
+    let ref = this.root;
+    while (ref) {
+      if (ref.value > value) {
+        ref = ref.leftNode;
+      } else if (ref.value < value) {
+        ref = ref.rightNode;
+      } else if (ref.value === value) {
+        return ref;
+      }
+    }
+  }
 }
 
 const tree = new Tree([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
-tree.delete(12);
+console.log(tree.find(6));
