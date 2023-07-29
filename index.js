@@ -112,7 +112,27 @@ class Tree {
       }
     }
   }
+  PreOrder(callBackFunc, nodeQueue = [], node = this.root) {
+    // traverse tree in breath first search
+    if (node) {
+      nodeQueue.push(node);
+      // if read queues has some val than read it and remove it when done
+      if (nodeQueue.length > 0) {
+        //
+        if (node.leftNode) {
+          this.levelOrder(callBackFunc, nodeQueue, node.leftNode);
+        }
+        if (node.rightNode) {
+          this.levelOrder(callBackFunc, nodeQueue, node.rightNode);
+        }
+        callBackFunc(nodeQueue.shift());
+      }
+    }
+  }
 }
 
 const tree = new Tree([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
+tree.PreOrder(function (node) {
+  console.log(node.value);
+});
 console.log(tree.find(6));
