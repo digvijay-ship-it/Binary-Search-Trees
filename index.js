@@ -136,9 +136,20 @@ class Tree {
     callBackFunc(nodeQueue.shift());
     return;
   }
+  postOrder(callBackFunc, nodeQueue = [], node = this.root) {
+    if (node.rightNode) {
+      this.postOrder(callBackFunc, nodeQueue, node.rightNode);
+    }
+    if (node.leftNode) {
+      this.postOrder(callBackFunc, nodeQueue, node.leftNode);
+    }
+    nodeQueue.push(node);
+    callBackFunc(nodeQueue.shift());
+    return;
+  }
 }
 
 const tree = new Tree([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
-tree.PreOrder(function (node) {
+tree.postOrder(function (node) {
   console.log(node.value);
 });
