@@ -147,9 +147,26 @@ class Tree {
     callBackFunc(nodeQueue.shift());
     return;
   }
+  levelOrder(callBackFunc, discoverQueue = [], node = this.root) {
+    if (node) {
+      discoverQueue.push(node);
+    }
+
+    if (discoverQueue.length > 0) {
+      const readNode = discoverQueue.shift();
+      callBackFunc(readNode);
+      if (readNode.leftNode) {
+        discoverQueue.push(readNode.leftNode);
+      }
+      if (readNode.rightNode) {
+        discoverQueue.push(readNode.rightNode);
+      }
+      this.levelOrder(callBackFunc, discoverQueue, readQueue, null);
+    }
+  }
 }
 
 const tree = new Tree([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
-tree.postOrder(function (node) {
+tree.levelOrder(function (node) {
   console.log(node.value);
 });
