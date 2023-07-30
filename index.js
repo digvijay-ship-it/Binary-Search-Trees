@@ -164,9 +164,22 @@ class Tree {
       this.levelOrder(callBackFunc, discoverQueue, readQueue, null);
     }
   }
+  depth(node, NoOfEdges = 0, refNode = this.root) {
+    if (refNode === null) return null;
+    if (refNode.value === node) {
+      return NoOfEdges;
+    } else {
+      if (refNode.value > node) {
+        refNode = refNode.leftNode;
+        NoOfEdges += 1;
+      } else if (refNode.value < node) {
+        refNode = refNode.rightNode;
+        NoOfEdges += 1;
+      }
+      return this.depth(node, NoOfEdges, refNode);
+    }
+  }
 }
 
 const tree = new Tree([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
-tree.levelOrder(function (node) {
-  console.log(node.value);
-});
+console.log(tree.depth(10));
