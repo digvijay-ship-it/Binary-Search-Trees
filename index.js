@@ -179,7 +179,33 @@ class Tree {
       return this.depth(node, NoOfEdges, refNode);
     }
   }
+  heightOfTree(node = this.root, LeftHeight = 0, rightHeight = 0, height = 0) {
+    height = LeftHeight > rightHeight ? LeftHeight : rightHeight;
+
+    if (node === null) return 0;
+    if (!node.leftNode && !node.rightNode) return height;
+    else {
+      if (node.leftNode) {
+        LeftHeight += 1;
+        return this.heightOfTree(
+          node.leftNode,
+          LeftHeight,
+          rightHeight,
+          height
+        );
+      }
+      if (node.rightNode) {
+        rightHeight += 1;
+        return this.heightOfTree(
+          node.rightNode,
+          LeftHeight,
+          rightHeight,
+          height
+        );
+      }
+    }
+  }
 }
 
-const tree = new Tree([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
-console.log(tree.depth(10));
+const tree = new Tree([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
+console.log(tree.heightOfTree());
