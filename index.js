@@ -205,7 +205,13 @@ class Tree {
       }
     }
   }
+  heightOfNode(value) {
+    const heightOfTree = this.heightOfTree();
+    const depthOfNode = this.depth(value);
+
+    return heightOfTree - depthOfNode;
+  }
 }
 
 const tree = new Tree([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
-console.log(tree.heightOfTree());
+console.log(tree.heightOfNode());
