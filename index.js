@@ -14,7 +14,7 @@ class Tree {
     this.arr = this.arr.filter(
       (item, index) => this.arr.indexOf(item) === index
     );
-    this.root = this.buildTree(this.arr);
+    this.root = this.buildTree(Array.from(this.arr));
   }
   buildTree(arr) {
     if (arr.length === 0) return;
