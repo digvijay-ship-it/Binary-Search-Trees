@@ -211,7 +211,32 @@ class Tree {
 
     return heightOfTree - depthOfNode;
   }
+  isBalanced(node = this.root, heightOfTree = this.heightOfTree()) {
+    let status = true;
+    if (node.leftNode) {
+      status = this.isBalanced(node.leftNode, heightOfTree);
+      if (status === false) {
+        return status;
+      }
+    }
+    if (node.rightNode) {
+      status = this.isBalanced(node.rightNode, heightOfTree);
+      if (status === false) {
+        return status;
+      }
+    } else if (!node.leftNode && !node.rightNode) {
+      const leafNodeHeight = this.heightOfNode(node.value);
+      if (leafNodeHeight > 1) {
+        return false;
+      }
+      return true;
+    }
+    return status;
+  }
 }
 
-const tree = new Tree([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
-console.log(tree.heightOfNode());
+const tree = new Tree([1, 2, 3, 4]);
+tree.insert(0);
+console.log(tree.isBalanced()); // false
+tree.insert(5);
+console.log(tree.isBalanced()); // true
