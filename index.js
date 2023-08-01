@@ -76,7 +76,6 @@ class Tree {
     } else if (value === node.value) {
       // case 1 if node is leafNode
       if (node.leftNode === null && node.rightNode === null) {
-        console.log(parent);
         if (parent.rightNode) {
           if (parent.rightNode.value === value) {
             parent.rightNode = null;
@@ -97,15 +96,21 @@ class Tree {
       }
       // case 3 if node has 2 children
       else if (node.leftNode && node.rightNode) {
-        // insert leftmost leafNode of right branch of node
+        let previousNode;
         let ref = node.rightNode;
-        while (ref.leftNode.leftNode) {
+        previousNode = node;
+        while (ref.leftNode) {
+          previousNode = ref;
           ref = ref.leftNode;
         }
-        node.value = ref.leftNode.value;
-        ref.leftNode = null;
-        return;
+        node.value = ref.value;
+        previousNode.leftNode = null;
       }
+      const deletingValueIndex = this.arr.indexOf(value);
+      if (deletingValueIndex !== -1) {
+        this.arr.splice(deletingValueIndex, 1);
+      }
+      return;
     }
   }
   find(value) {
@@ -243,8 +248,6 @@ class Tree {
   }
 }
 
-const tree = new Tree([1, 2, 3, 4]);
-tree.insert(0);
-console.log(tree.isBalanced()); // false
-tree.insert(5);
-console.log(tree.isBalanced()); // true
+const tree = new Tree([-1, 0, 1, 2, 3, 4]);
+tree.delete(0);
+tree.delete(-1);
