@@ -44,6 +44,10 @@ class Tree {
         return;
       } else {
         node.rightNode = new Node(value);
+        this.arr.push(value);
+        this.arr = this.arr.sort(function (a, b) {
+          return a - b;
+        });
       }
     } else if (value < node.value) {
       if (node.leftNode) {
@@ -51,6 +55,10 @@ class Tree {
         return;
       } else {
         node.leftNode = new Node(value);
+        this.arr.push(value);
+        this.arr = this.arr.sort(function (a, b) {
+          return a - b;
+        });
       }
     } else if (value === node.value) return;
   }
