@@ -246,8 +246,23 @@ class Tree {
     }
     return status;
   }
+  rebalanceTree(arr = null) {
+    if (arr) {
+      this.arr = arr.sort(function (a, b) {
+        return a - b;
+      });
+      this.arr = this.arr.filter(
+        (item, index) => this.arr.indexOf(item) === index
+      );
+    }
+    this.root = this.buildTree(Array.from(this.arr));
+  }
 }
 
-const tree = new Tree([-1, 0, 1, 2, 3, 4]);
-tree.delete(0);
-tree.delete(-1);
+const tree = new Tree([1, 2, 3]);
+tree.insert(4);
+tree.insert(5);
+tree.insert(6);
+tree.insert(7);
+tree.insert(8);
+console.log(tree.isBalanced());
