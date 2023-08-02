@@ -192,30 +192,16 @@ class Tree {
       return this.depth(node, NoOfEdges, refNode);
     }
   }
-  heightOfTree(node = this.root, LeftHeight = 0, rightHeight = 0, height = 0) {
-    height = LeftHeight > rightHeight ? LeftHeight : rightHeight;
+  heightOfTree(node = this.root) {
+    if (node === null) {
+      return 0;
+    } else {
+      let lDepth = this.heightOfTree(node.leftNode);
+      let rDepth = this.heightOfTree(node.rightNode);
 
-    if (node === null) return 0;
-    if (!node.leftNode && !node.rightNode) return height;
-    else {
-      if (node.leftNode) {
-        LeftHeight += 1;
-        return this.heightOfTree(
-          node.leftNode,
-          LeftHeight,
-          rightHeight,
-          height
-        );
-      }
-      if (node.rightNode) {
-        rightHeight += 1;
-        return this.heightOfTree(
-          node.rightNode,
-          LeftHeight,
-          rightHeight,
-          height
-        );
-      }
+      if (lDepth > rDepth) {
+        return lDepth + 1;
+      } else return rDepth + 1;
     }
   }
   heightOfNode(value) {
@@ -239,7 +225,7 @@ class Tree {
       }
     } else if (!node.leftNode && !node.rightNode) {
       const leafNodeHeight = this.heightOfNode(node.value);
-      if (leafNodeHeight > 1) {
+      if (leafNodeHeight > 2) {
         return false;
       }
       return true;
@@ -261,8 +247,8 @@ class Tree {
 
 const tree = new Tree([1, 2, 3]);
 tree.insert(4);
-tree.insert(5);
-tree.insert(6);
-tree.insert(7);
-tree.insert(8);
+// tree.insert(5);
+// tree.insert(6);
+// tree.insert(7);
+// tree.insert(8);
 console.log(tree.isBalanced());
