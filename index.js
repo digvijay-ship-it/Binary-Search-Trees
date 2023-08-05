@@ -1,3 +1,42 @@
+function mergeSort(arr) {
+  if (arr.length === 1) {
+    return arr;
+  } else {
+    const midIndex = Math.floor(arr.length / 2);
+    const leftArr = arr.splice(0, midIndex);
+    const rightArr = arr;
+    const sorted = merge(mergeSort(leftArr), mergeSort(rightArr));
+    return sorted;
+  }
+}
+function merge(
+  leftArr,
+  rightArr,
+  leftArrIndex = 0,
+  rightArrIndex = 0,
+  newArr = []
+) {
+  if (leftArr[leftArrIndex] <= rightArr[rightArrIndex]) {
+    newArr.push(leftArr[leftArrIndex]);
+    leftArrIndex++;
+    if (leftArrIndex === leftArr.length) {
+      newArr.push(
+        ...rightArr.splice(rightArrIndex, rightArr.length - rightArrIndex)
+      );
+      return newArr;
+    }
+  } else if (leftArr[leftArrIndex] >= rightArr[rightArrIndex]) {
+    newArr.push(rightArr[rightArrIndex]);
+    rightArrIndex++;
+    if (rightArrIndex === rightArr.length) {
+      newArr.push(
+        ...leftArr.splice(leftArrIndex, leftArr.length - leftArrIndex)
+      );
+      return newArr;
+    }
+  }
+  return merge(leftArr, rightArr, leftArrIndex, rightArrIndex, newArr);
+}
 class Node {
   constructor(value, leftNode = null, rightNode = null) {
     this.value = value;
@@ -8,9 +47,7 @@ class Node {
 
 class Tree {
   constructor(arr) {
-    this.arr = arr.sort(function (a, b) {
-      return a - b;
-    });
+    this.arr = mergeSort(arr);
     this.arr = this.arr.filter(
       (item, index) => this.arr.indexOf(item) === index
     );
@@ -45,9 +82,7 @@ class Tree {
       } else {
         node.rightNode = new Node(value);
         this.arr.push(value);
-        this.arr = this.arr.sort(function (a, b) {
-          return a - b;
-        });
+        this.arr = mergeSort(this.arr);
       }
     } else if (value < node.value) {
       if (node.leftNode) {
@@ -56,9 +91,7 @@ class Tree {
       } else {
         node.leftNode = new Node(value);
         this.arr.push(value);
-        this.arr = this.arr.sort(function (a, b) {
-          return a - b;
-        });
+        this.arr = mergeSort(this.arr);
       }
     } else if (value === node.value) return;
   }
@@ -234,9 +267,7 @@ class Tree {
   }
   rebalanceTree(arr = null) {
     if (arr) {
-      this.arr = arr.sort(function (a, b) {
-        return a - b;
-      });
+      this.arr = mergeSort(arr);
       this.arr = this.arr.filter(
         (item, index) => this.arr.indexOf(item) === index
       );
@@ -247,8 +278,8 @@ class Tree {
 
 const tree = new Tree([1, 2, 3]);
 tree.insert(4);
-// tree.insert(5);
-// tree.insert(6);
+tree.insert(5);
+tree.insert(6);
 // tree.insert(7);
 // tree.insert(8);
 console.log(tree.isBalanced());
